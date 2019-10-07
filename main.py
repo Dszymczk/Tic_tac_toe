@@ -80,27 +80,32 @@ def is_move(board):
 
 # Function to change button into image
 def action(button, game):
-    #photo = tk.PhotoImage(file="O.png")
-    #button['image'] = photo
+    # Changing Button into image
+    # photo = tk.PhotoImage(file="O.png")
+    # button['image'] = photo
     player = game[1]
-    line = button['text']
-    if not get_choice(line, game[0], game[1]):
+    position = button['text']
+    # Changing text in button into player sign
+    if not get_choice(position, game[0], game[1]):
         return 0
     if player == 1:
         button['text'] = "O"
     elif player == 2:
         button['text'] = "X"
-    player = change_player(player)
-    game[1] = player
+    # Change player for next move
+    # player = change_player(player)
+    game[1] = change_player(player)
     draw_a_board(board)
-    winer = check_board(board)
-    if winer:
-        if winer == 1:
+    winner = check_board(board)
+    if winner:
+        if winner == 1:
             message['text'] = "O has won! "
             print("O has won")
-        elif winer == 2:
+            buttons_disable(game[2])
+        elif winner == 2:
             message['text'] = "X has won! "
             print("X has won")
+            buttons_disable(game[2])
     else:
         if player == 1:
             message['text'] = "Now O"
@@ -117,14 +122,44 @@ def change_player(player):
         return 1
 
 
+def game_ended():
+    print("Game ended. No more moves possible")
+
+
+def button_initialise():
+    button_font = font.Font(name="Arial", size=40)
+    buttons = [[tk.Button(frame, text=str(j + 1) + "," + str(i + 1), font=button_font) for j in range(3)] for i in
+               range(3)]
+    for i in range(3):
+        for j in range(3):
+            buttons[i][j].place(anchor="nw", relx=0.05 + i * 0.3, rely=0.05 + j * 0.3, relwidth=0.3, relheight=0.3)
+            #  buttons[i][j]['command'] = lambda: change_image(buttons[i][j], 1) doesnt work
+    buttons[0][0]['command'] = lambda: action(buttons[0][0], game)
+    buttons[0][1]['command'] = lambda: action(buttons[0][1], game)
+    buttons[0][2]['command'] = lambda: action(buttons[0][2], game)
+    buttons[1][0]['command'] = lambda: action(buttons[1][0], game)
+    buttons[1][1]['command'] = lambda: action(buttons[1][1], game)
+    buttons[1][2]['command'] = lambda: action(buttons[1][2], game)
+    buttons[2][0]['command'] = lambda: action(buttons[2][0], game)
+    buttons[2][1]['command'] = lambda: action(buttons[2][1], game)
+    buttons[2][2]['command'] = lambda: action(buttons[2][2], game)
+    return buttons
+
+
+def buttons_disable(buttons):
+    buttons[0][0]['command'] = game_ended
+    buttons[0][1]['command'] = game_ended
+    buttons[0][2]['command'] = game_ended
+    buttons[1][0]['command'] = game_ended
+    buttons[1][1]['command'] = game_ended
+    buttons[1][2]['command'] = game_ended
+    buttons[2][0]['command'] = game_ended
+    buttons[2][1]['command'] = game_ended
+    buttons[2][2]['command'] = game_ended
+
 HEIGHT = 700
 WIDTH = 800
 player = 1
-
-
-def basic():
-    print("dziala")
-
 
 root = tk.Tk()
 
@@ -142,29 +177,12 @@ message = tk.Label(lower_frame, text="O starts", font=message_font, bg="gray")
 message.place(relheight=1, relwidth=1)
 
 
-button_font = font.Font(name="Arial", size=40)
-# buttons = [tk.Button(text=str(i) + "," + str(j)) for i in range(3) for j in range(3)]
-buttons = [[tk.Button(frame, text=str(j+1) + "," + str(i+1), font=button_font) for j in range(3)] for i in range(3)]
-for i in range(3):
-    for j in range(3):
-        buttons[i][j].place(anchor="nw", relx=0.05 + i * 0.3, rely=0.05 + j * 0.3, relwidth=0.3, relheight=0.3)
-        #  buttons[i][j]['command'] = lambda: change_image(buttons[i][j], 1) doesnt work
-
 board = [[0, 0, 0],
          [0, 0, 0],
          [0, 0, 0]]
 player = 1
-game = [board, player]
-
-buttons[0][0]['command'] = lambda: action(buttons[0][0], game)
-buttons[0][1]['command'] = lambda: action(buttons[0][1], game)
-buttons[0][2]['command'] = lambda: action(buttons[0][2], game)
-buttons[1][0]['command'] = lambda: action(buttons[1][0], game)
-buttons[1][1]['command'] = lambda: action(buttons[1][1], game)
-buttons[1][2]['command'] = lambda: action(buttons[1][2], game)
-buttons[2][0]['command'] = lambda: action(buttons[2][0], game)
-buttons[2][1]['command'] = lambda: action(buttons[2][1], game)
-buttons[2][2]['command'] = lambda: action(buttons[2][2], game)
+buttons = button_initialise()
+game = [board, player, buttons]
 
 
 root.mainloop()
