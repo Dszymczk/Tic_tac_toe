@@ -126,7 +126,7 @@ def game_ended():
     print("Game ended. No more moves possible")
 
 
-def button_initialise():
+def buttons_initialise():
     button_font = font.Font(name="Arial", size=40)
     buttons = [[tk.Button(frame, text=str(j + 1) + "," + str(i + 1), font=button_font) for j in range(3)] for i in
                range(3)]
@@ -157,6 +157,20 @@ def buttons_disable(buttons):
     buttons[2][1]['command'] = game_ended
     buttons[2][2]['command'] = game_ended
 
+
+def restart_game(game):
+    buttons = game[2]
+    for i in range(3):
+        for j in range(3):
+            buttons[i][j].destroy()
+    game[1] = 1
+    buttons = buttons_initialise()
+    game[2] = buttons
+    game[0] = [[0, 0, 0],
+               [0, 0, 0],
+               [0, 0, 0]]
+
+
 HEIGHT = 700
 WIDTH = 800
 player = 1
@@ -174,14 +188,17 @@ lower_frame.place(relx=0.5, rely=0.80, relheight=0.15, relwidth=0.7, anchor="n")
 
 message_font = font.Font(family="Times", size=30, weight="bold")
 message = tk.Label(lower_frame, text="O starts", font=message_font, bg="gray")
-message.place(relheight=1, relwidth=1)
+message.place(relheight=1, relwidth=0.7)
+
+restart_button = tk.Button(lower_frame, text="Restart",font=message_font, bg="blue", command=lambda:restart_game(game))
+restart_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 
 board = [[0, 0, 0],
          [0, 0, 0],
          [0, 0, 0]]
 player = 1
-buttons = button_initialise()
+buttons = buttons_initialise()
 game = [board, player, buttons]
 
 
