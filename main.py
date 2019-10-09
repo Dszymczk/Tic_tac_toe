@@ -83,6 +83,7 @@ def action(button, game):
     # Changing Button into image
     # photo = tk.PhotoImage(file="O.png")
     # button['image'] = photo
+    board = game[0]
     player = game[1]
     position = button['text']
     # Changing text in button into player sign
