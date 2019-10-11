@@ -1,0 +1,92 @@
+import tkinter as tk
+#from tkinter import font
+
+
+class Square(tk.Button):
+    # initializer
+    def change_state(self, player):
+        if player == 1:
+            self['text'] = "O"
+        elif player == 2:
+            self['text'] = "X"
+
+    def __init__(self, the_window, xindex, yindex):
+        tk.Button.__init__(self, the_window)
+        self.i = xindex
+        self.j = yindex
+        self.state = 0
+
+        self.place(relx=0.05+(xindex-1)*0.3, rely=0.05+(yindex-1)*0.3, relwidth=0.3, relheight=0.3, anchor="nw")
+
+        self['command'] = lambda: self.change_state(1)
+
+
+
+
+class Board(Square):
+    # initializer
+    def __init__(self, parent_window):
+        self.player = 1
+        self.board_state = [[0, 0, 0],
+                            [0, 0, 0],
+                            [0, 0, 0]]
+        self.but11 = Square(parent_window, 1, 1)
+        self.but12 = Square(parent_window, 1, 2)
+        self.but13 = Square(parent_window, 1, 3)
+        self.but21 = Square(parent_window, 2, 1)
+        self.but22 = Square(parent_window, 2, 2)
+        self.but23 = Square(parent_window, 2, 3)
+        self.but31 = Square(parent_window, 3, 1)
+        self.but32 = Square(parent_window, 3, 2)
+        self.but33 = Square(parent_window, 3, 3)
+
+        self.but11['command'] = lambda: self.action(self.but11)
+        self.but12['command'] = lambda: self.action(self.but12)
+        self.but13['command'] = lambda: self.action(self.but13)
+        self.but21['command'] = lambda: self.action(self.but21)
+        self.but22['command'] = lambda: self.action(self.but22)
+        self.but23['command'] = lambda: self.action(self.but23)
+        self.but31['command'] = lambda: self.action(self.but31)
+        self.but32['command'] = lambda: self.action(self.but32)
+        self.but33['command'] = lambda: self.action(self.but33)
+
+    def change_player(self):
+        # print("change player")
+        # self.player = 1
+        # print(self.player)
+        if self.player == 1:
+            self.player = 2
+            print("1")
+        elif self.player == 2:
+            self.player = 1
+            print("2")
+
+
+    def action(self, but):
+        self.change_player()
+        but.change_state(self.player)
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    HEIGHT = 700
+    WIDTH = 800
+
+    root = tk.Tk()
+
+    canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
+    canvas.pack()
+
+    frame = tk.Frame(root, bg="red")
+    frame.place(relx=0.5, rely=0.05, relwidth=0.7, relheight=0.7, anchor="n")
+
+    Board(frame)
+
+
+
+
+    root.mainloop()
