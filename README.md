@@ -6,6 +6,6 @@
 ![Screen1](./IMG/Screenshot_2.png)
 
 ## Technologies 
-python v. 3.7.2
-tkinter v. 8.6
+* python v. 3.7.2
+* tkinter v. 8.6
 
