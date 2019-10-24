@@ -2,8 +2,8 @@
 > Simple Tic Tac Toe game written with Tkinter
 
 ## Screenshots
-![Screen1](./img/Screenshot_1.png)
-![Screen1](./img/Screenshot_2.png)
+![Screen1](./IMG/Screenshot_1.png)
+![Screen1](./IMG/Screenshot_2.png)
 
 ##Technologies 
 python v. 3.7.2
