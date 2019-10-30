@@ -72,30 +72,35 @@ class Game(Square):
             self.message['text'] = "Now O"
 
     def action(self, but):
-        but.change_state(self.player)
-        self.board_state[but.j-1][but.i-1] = self.player
-        # print(self.board_state)
-        winner = self.check_board()
-        if winner == 1:
-            print("O has won")
-            self.message['text'] = "O has won!"
-            self.disable_buttons()
-        elif winner == 2:
-            print("O has won")
-            self.message['text'] = "X has won!"
-            self.disable_buttons()
-        elif winner == 3:
-            print("Draw")
-            self.message['text'] = "Draw!"
-            self.disable_buttons()
+        # Check if square is free
+        if self.board_state[but.j-1][but.i-1] == 0:
+            but.change_state(self.player)
+            self.board_state[but.j-1][but.i-1] = self.player
+            # print(self.board_state)
+            winner = self.check_board()
+            if winner == 1:
+                print("O has won")
+                self.message['text'] = "O has won!"
+                self.disable_buttons()
+            elif winner == 2:
+                print("O has won")
+                self.message['text'] = "X has won!"
+                self.disable_buttons()
+            elif winner == 3:
+                print("Draw")
+                self.message['text'] = "Draw!"
+                self.disable_buttons()
+            else:
+                # square is occupied
+                self.change_player()
         else:
-            self.change_player()
+            print("Wrong choice")
 
     def check_board(self):
         print("check_board")
         board = self.board_state
         for i in range(3):
-            condition3 = board[0][0] == board[1][1] == board[2][2] == self.player
+            condition3 = board[0][0] == board[1][1] == board[2][2] == self.player 
             condition4 = board[2][0] == board[1][1] == board[0][2] == self.player
             if board[i][0] == board[i][1] == board[i][2] == self.player or board[0][i] == board[1][i] == board[2][i] == self.player  or condition3 or condition4:
                 print(self.player)
@@ -142,6 +147,19 @@ class Game(Square):
         self.but32['text'] = ""
         self.but33['text'] = ""
 
+#Check
+        self.but11['image'] = no_image
+        self.but12['image'] = no_image
+        self.but13['image'] = no_image
+        self.but21['image'] = no_image
+        self.but22['image'] = no_image
+        self.but23['image'] = no_image
+        self.but31['image'] = no_image
+        self.but32['image'] = no_image
+        self.but33['image'] = no_image
+
+
+
     def game_restart(self):
         self.activate_buttons()
         self.player = 1
@@ -164,6 +182,7 @@ if __name__ == "__main__":
 
     photo_O = tk.PhotoImage(file="O_m.png")
     photo_X = tk.PhotoImage(file='X_m.png')
+    no_image = tk.PhotoImage()
 
     my_game = Game(root)
 
